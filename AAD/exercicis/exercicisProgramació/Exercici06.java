@@ -1,8 +1,4 @@
-import java.util.ArrayList;
 import java.util.List;
-
-
-
 import java.io.File;
 
 public class Exercici06{
@@ -23,8 +19,7 @@ public class Exercici06{
             }
             else {
                 System.out.println("\t" + f1.getAbsolutePath());
-            }   
-            
+            }       
         }
     }
 }
