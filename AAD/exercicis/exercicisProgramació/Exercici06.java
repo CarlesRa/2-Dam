@@ -8,6 +8,7 @@ public class Exercici06{
         System.out.println("Directorio de busqueda: " + file.getAbsolutePath() + "\n");
         verArchivosRecursivamente(file);
     }
+    
     public static void verArchivosRecursivamente(File file){
         File [] lista;
         lista = file.listFiles();
