@@ -18,7 +18,6 @@ public class Exercici07{
                 }catch(IOException ioe){
                     
                 }
-
             }
             
         }
