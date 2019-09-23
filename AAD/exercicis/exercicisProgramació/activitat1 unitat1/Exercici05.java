@@ -24,7 +24,8 @@ public class Exercici05{
                 System.out.println("Linea numero " + (i+1) + ": " +linea);
             }
             else{
-                System.out.println("\u001B[31mNo hay mas lineas que mostrar!!\u001B[0m");
+                System.out.println("\u001B[31m El numero total de lineas es: \u001B[32m" 
+                + i + "\u001B[31m No hay mas lineas que mostrar!!\u001B[0m");
                 return;
             }
         }
