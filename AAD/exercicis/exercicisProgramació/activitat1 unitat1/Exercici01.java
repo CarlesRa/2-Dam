@@ -10,10 +10,9 @@ public class Exercici01{
         while((linea = lector.readLine()) != null){
             mostrarAlReves(linea);
         }
-        lector.close();
-
-        
+        lector.close();   
     }
+    
     public static void mostrarAlReves(String s){
         for(int i=s.length()-1; i>=0; i--){
             System.out.print(s.charAt(i));
