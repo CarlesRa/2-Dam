@@ -19,7 +19,7 @@ public class Exercici05{
         lec.nextLine();
         for(int i=0; i<numeroDeLineas; i++){
             if((linea = lector.readLine()) != null){
-                System.out.println("Linea numero " + (i+1) + ": " +linea);
+                System.out.println(linea);
             }
             else{
                 System.out.println("\u001B[31m El numero total de lineas es: \u001B[32m" 

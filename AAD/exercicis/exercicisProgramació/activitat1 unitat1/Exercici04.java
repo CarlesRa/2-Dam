@@ -8,14 +8,14 @@ public class Exercici04{
         File fichero;
         BufferedReader lector;
         int contadorLineas;
-        fichero = new File("./f4.txt");
+        fichero = new File(args[0]);
         lector = new BufferedReader(new FileReader(fichero));//abrimos el flujo de entrada
         contadorLineas = 0;
         while (lector.readLine() != null){
             contadorLineas++;
         }
         lector.close();//cerramos el flujo
-        System.out.println("En el fichero " + fichero.getName() + " que esta en: " + fichero.getAbsolutePath()
-        + " hay: " + contadorLineas + " lineas.");
+        System.out.println("En el fichero " + fichero.getName() + " que esta en: "
+         + fichero.getAbsolutePath()+ " hay: " + contadorLineas + " lineas.");
     }
 }

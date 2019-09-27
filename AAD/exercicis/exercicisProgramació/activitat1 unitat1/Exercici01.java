@@ -5,7 +5,7 @@ public class Exercici01{
         File fichero;
         BufferedReader lector; 
         String linea;
-        fichero = new File("/home/carles/Documentos/DAM/2º DAM/AAD/exercicis/exercicisProgramació/Curs 2DAM/f1.txt");
+        fichero = new File(args[0]);
         lector = new BufferedReader(new FileReader(fichero));
         while((linea = lector.readLine()) != null){
             mostrarAlReves(linea);
