@@ -13,13 +13,13 @@ public class Exercici03{
         FileWriter escritor;
         String linea;
         try{
-            fichero1 = new File("./f3.txt");
-            fichero2 = new File("./f4.txt");
+            fichero1 = new File(args[0]);
+            fichero2 = new File(args[1]);
             lector = new BufferedReader(new FileReader(fichero1));
             escritor = new FileWriter(fichero2);
             
             while((linea = lector.readLine()) != null){
-                escritor.write("\n" + linea);
+                escritor.write(linea + "\n");
             }
             lector.close();
             escritor.close();

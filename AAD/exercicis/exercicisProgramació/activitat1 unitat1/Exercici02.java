@@ -14,8 +14,8 @@ public class Exercici02{
         FileWriter escritor;
         String linea;
         try{
-            fichero1 = new File("./f1.txt");
-            fichero2 = new File("./f2.txt");
+            fichero1 = new File(args[0]);
+            fichero2 = new File(args[1]);
             lector = new BufferedReader(new FileReader(fichero1));
             escritor = new FileWriter(fichero2,true);
             
