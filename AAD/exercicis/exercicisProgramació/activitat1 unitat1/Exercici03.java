@@ -17,7 +17,6 @@ public class Exercici03{
             fichero2 = new File(args[1]);
             lector = new BufferedReader(new FileReader(fichero1));
             escritor = new FileWriter(fichero2);
-            
             while((linea = lector.readLine()) != null){
                 escritor.write(linea + "\n");
             }

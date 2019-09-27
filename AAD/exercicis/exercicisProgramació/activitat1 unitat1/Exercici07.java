@@ -25,6 +25,7 @@ public class Exercici07{
             System.out.println("Lineas: " + numLineas);
             System.out.println("Caracteres: " + numCaracteres);
             System.out.println("Palabras: " + numPalabras);
+            lector.close();
         }
         catch(FileNotFoundException fnfe){
             System.out.println("No se encontro el fichero...");

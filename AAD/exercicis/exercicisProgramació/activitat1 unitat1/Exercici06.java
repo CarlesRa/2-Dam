@@ -47,10 +47,11 @@ public class Exercici06{
                     scaner.nextLine();
                 }                
             }
+            lector.close();  
         }
         catch(FileNotFoundException fnfe){
             System.out.println("No se encuentra el fichero, Adioss");
             esCorrecto = true;
-        }       
+        }     
     }
 }
