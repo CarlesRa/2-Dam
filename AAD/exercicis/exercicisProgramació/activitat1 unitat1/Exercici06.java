@@ -6,7 +6,6 @@ public class Exercici06{
     public static void main(String[] args) throws IOException{
         File fichero;
         BufferedReader lector;
-        int cantidadLineas;
         int nLineasUsuario;
         Scanner scaner;
         boolean esCorrecto;
@@ -38,7 +37,7 @@ public class Exercici06{
                     }
                     catch(IndexOutOfBoundsException iobe){
                         System.out.println("Has superado el numero de lineas!!"
-                        + " El fichero tenia " + numLineas + " lineas.");
+                        + " El fichero tiene " + numLineas + " lineas.");
                         esCorrecto = false;
                     }
                 }
