@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Exercici09{
     public static void main(String[] args) throws IOException{
         Scanner lec = new Scanner(System.in);
-        File f = new File("/home/carles/Documentos/DAM/2º DAM/AAD/exercicis/exercicisProgramació/Curs 2DAM/f1.txt");
+        File f = new File(args[0]);
         FileWriter fW = new FileWriter(f);
         char caracter;
         do{

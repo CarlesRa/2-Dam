@@ -9,7 +9,7 @@ public class Exercici06{
         int nLineasUsuario;
         Scanner scaner;
         boolean esCorrecto;
-        ArrayList <String> arrayLineas;
+        ArrayList<String> arrayLineas;
         String linea;
         int numLineas;
         scaner = new Scanner(System.in);

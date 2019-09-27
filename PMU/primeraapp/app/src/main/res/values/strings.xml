@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">primera app</string>
+    <string name="hint_user">nº</string>
+    <string name="app_name">Guess Random</string>
 </resources>

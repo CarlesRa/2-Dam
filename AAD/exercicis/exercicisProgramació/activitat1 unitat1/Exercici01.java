@@ -6,10 +6,12 @@ public class Exercici01{
         BufferedReader lector; 
         String linea;
         fichero = new File(args[0]);
+        //abrimos el flujo de entrada
         lector = new BufferedReader(new FileReader(fichero));
         while((linea = lector.readLine()) != null){
             mostrarAlReves(linea);
         }
+        //cerramos el flujo
         lector.close();   
     }
     

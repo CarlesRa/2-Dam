@@ -19,7 +19,7 @@ public class Exercici04{
             lector.close();//cerramos el flujo
             System.out.println("En el fichero " + fichero.getName() + " que esta en: "
             + fichero.getAbsolutePath()+ " hay: " + contadorLineas + " lineas.");
-            lector.clos();
+            lector.close();
         }
         catch(FileNotFoundException fnfe){
             System.out.println("Fichero no encontrado...");
