@@ -19,10 +19,10 @@ public class Exercici02{
             //abro el flujo de entrada
             lector = new BufferedReader(new FileReader(fichero1));
             //abro el flujo de salida
-            escritor = new FileWriter(fichero2,true);
+            escritor = new FileWriter(fichero2);
             
             while((linea = lector.readLine()) != null){
-                escritor.write("\n" + linea);
+                escritor.write(linea + "\n");
             }
             //cerramos lo flujos
             lector.close();
