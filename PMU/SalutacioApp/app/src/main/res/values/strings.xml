@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Salutació</string>
+    <string name="tvTitulo">Salutació</string>
+    <string name="etNombre">Nom</string>
+    <string name="etApellido">Congnom</string>
+    <string name="btSaludar">SALUDA</string>
+</resources>
