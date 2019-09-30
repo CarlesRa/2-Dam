@@ -27,7 +27,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 inputMethodManager.hideSoftInputFromWindow(btCalcular.getWindowToken(), 0);
-                tvResultado.setText(String.valueOf(calcularFactorial(Integer.parseInt(etNumero.getText().toString()))));
+                if (Integer.parseInt(etNumero.getText().toString()) > 0) {
+                    tvResultado.setText(String.valueOf(calcularFactorial(Integer.parseInt(etNumero.getText().toString()))));
+                }
+                else
+                    tvResultado.setText("Error debe ser un entero positivo");
             }
         });
     }
