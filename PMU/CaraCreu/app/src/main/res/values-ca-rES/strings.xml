@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CaraCreu</string>
+    <string name="tvTitulo">Cara o Creu</string>
+    <string name="txMensage">Indica la teva aposta</string>
+    <string name="btCruz">CREU</string>
+    <string name="btCara">CARA</string>
+    <string name="tvResultado">Has guanyat!!</string>
+    <string name="tvResultado1">Has perdut...</string>
+</resources>

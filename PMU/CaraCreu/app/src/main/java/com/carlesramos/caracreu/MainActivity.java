@@ -2,13 +2,19 @@ package com.carlesramos.caracreu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.Random;
+
+import static android.view.View.VISIBLE;
 
 public class MainActivity extends AppCompatActivity {
     private Button btCara;
@@ -17,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvResultado;
     private Random rnd;
     private int numRandom;
+    private ProgressBar pbProgreso;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,20 +39,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 numRandom = rnd.nextInt(2);
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                esperar();
                 switch (numRandom){
                     case 0:{
-                        ivQuestion.setImageResource(R.drawable.euro_cara);
-                        tvResultado.setText(R.string.tvResultado);
+                        mostrarCara();
+                        mensajeVictoria();
                         break;
                     }
                     case 1:{
-                        ivQuestion.setImageResource(R.drawable.euro_cruz);
-                        tvResultado.setText(R.string.tvResultado1);
+                        mostrarCruz();
+                        mensajeDerrota();
                         break;
                     }
                 }
@@ -56,24 +59,39 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 numRandom = rnd.nextInt(2);
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                esperar();
                 switch (numRandom){
                     case 0:{
-                        ivQuestion.setImageResource(R.drawable.euro_cruz);
-                        tvResultado.setText(R.string.tvResultado);
+                        mostrarCruz();
+                        mensajeVictoria();
                         break;
                     }
                     case 1:{
-                        ivQuestion.setImageResource(R.drawable.euro_cara);
-                        tvResultado.setText(R.string.tvResultado1);
+                        mostrarCara();
+                        mensajeDerrota();
                         break;
                     }
                 }
             }
         });
+    }
+    public void esperar(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void mostrarCara(){
+        ivQuestion.setImageResource(R.drawable.euro_cara);
+    }
+    public void mostrarCruz(){
+        ivQuestion.setImageResource(R.drawable.euro_cruz);
+    }
+    public void mensajeVictoria(){
+        tvResultado.setText(R.string.tvResultado);
+    }
+    public void mensajeDerrota(){
+        tvResultado.setText(R.string.tvResultado1);
     }
 }
