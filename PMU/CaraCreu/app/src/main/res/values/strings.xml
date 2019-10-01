@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">CaraCreu</string>
+    <string name="tvTitulo">Head or Tails</string>
+    <string name="txMensage">Place your bet</string>
+    <string name="btCruz">TAIL</string>
+    <string name="btCara">HEAD</string>
+    <string name="tvResultado">You win!!</string>
+    <string name="tvResultado1">You lost...</string>
+</resources>

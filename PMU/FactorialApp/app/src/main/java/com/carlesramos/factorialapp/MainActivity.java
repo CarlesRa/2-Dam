@@ -9,12 +9,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.InputMismatchException;
 
 public class MainActivity extends AppCompatActivity {
     private EditText etNumero;
     private Button btCalcular;
     private TextView tvResultado;
     private InputMethodManager inputMethodManager;
+    private int numUsser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,11 +31,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 inputMethodManager.hideSoftInputFromWindow(btCalcular.getWindowToken(), 0);
-                if (Integer.parseInt(etNumero.getText().toString()) > 0) {
-                    tvResultado.setText(String.valueOf(calcularFactorial(Integer.parseInt(etNumero.getText().toString()))));
+                try{
+                    numUsser = Integer.parseInt(etNumero.getText().toString());
+                    if (Integer.parseInt(etNumero.getText().toString()) > 0) {
+                        tvResultado.setText(String.valueOf(calcularFactorial(numUsser)));
+                    }
+                    else if (Integer.parseInt(etNumero.getText().toString()) < 0)
+                        Toast.makeText(MainActivity.this,"No se aceptan números negativos",Toast.LENGTH_LONG).show();
+                }catch (NumberFormatException nfe){
+                    Toast.makeText(MainActivity.this,"Tienes que poner un entero positivo",Toast.LENGTH_LONG).show();
                 }
-                else
-                    tvResultado.setText("Error debe ser un entero positivo");
+
             }
         });
     }
