@@ -22,9 +22,9 @@ public class Principal {
         Personaje elf = new Personaje("Elf de la melena","Elf");
         Personaje mag = new Personaje("Harry el mag","Mag");
 
-        System.out.println(orc.toString());
+        /*System.out.println(orc.toString());
         System.out.println(elf.toString());
-        System.out.println(mag.toString());
+        System.out.println(mag.toString());*/
 
         orc.setArmes(new Arma("Espasa a dos mans"));
 
