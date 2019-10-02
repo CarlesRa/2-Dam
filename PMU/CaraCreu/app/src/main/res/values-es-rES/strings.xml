@@ -7,4 +7,5 @@
     <string name="btCara">CARA</string>
     <string name="tvResultado">Has ganado!!</string>
     <string name="tvResultado1">Has perdido...</string>
+    <string name="tvResultado0"> </string>
 </resources>

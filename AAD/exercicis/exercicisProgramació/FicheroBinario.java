@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.UnknownFormatConversionException;
+
 import java.util.Locale;
 
 public class FicheroBinario{
@@ -23,23 +24,23 @@ public class FicheroBinario{
             eleccion = mostrarMenu();
             switch(eleccion){
                 case 1:{
-                    insertarRegistro(args[0]);
+                    insertarRegistro(f1);
                     break;
                 }
                 case 2:{
-                    modificarTodoRegistro(args[0]);
+                    modificarTodoRegistro(f1);
                     break;
                 }
                 case 3:{
-                    modificarCampos(args[0]);
+                    modificarCampos(f1);
                     break;
                 }
                 case 4:{
-                    listarRegistros(args[0]);
+                    listarRegistros(f1);
                     break;
                 }
                 case 5:{
-                    System.out.println("Eleccion 5");
+                    eliminarRegistro(f1);
                     break;
                 }
                 case 0:{
@@ -109,17 +110,16 @@ public class FicheroBinario{
      * @throws IOException
      * @throws FileNotFoundException
      */
-    public static void insertarRegistro(String path) throws IOException,FileNotFoundException {
+    public static void insertarRegistro(File f1) throws IOException,FileNotFoundException {
         int posicion;
         boolean seguir;
         RandomAccessFile raf;
-        f1 = new File(path);
         raf = new RandomAccessFile(f1, "rw");
         posicion = 0;
         seguir = false;
         if(raf.length() > 0){
             posicion = posicionRegistro();
-            raf.seek(((long)posicion - 1) * TAMAÑO_REGISTRO );
+            raf.seek((posicion - 1) * TAMAÑO_REGISTRO );
         }
         else{
             posicion++;
@@ -174,11 +174,10 @@ public class FicheroBinario{
      * @throws IOException
      * @throws FileNotFoundException
      */
-    public static void modificarTodoRegistro(String path)throws IOException,FileNotFoundException {
+    public static void modificarTodoRegistro(File f1)throws IOException,FileNotFoundException {
         RandomAccessFile raf;
         int puntero;
         boolean seguir;
-        f1 = new File(path);
         raf = new RandomAccessFile(f1, "rw");
         System.out.print("Indica el ID del registro a modificar: ");
         puntero = lec.nextInt();
@@ -234,11 +233,10 @@ public class FicheroBinario{
         }
     }      
     
-    public static int modificarCampos(String path)throws IOException,FileNotFoundException{
+    public static int modificarCampos(File f1)throws IOException,FileNotFoundException{
         RandomAccessFile raf;
         int puntero;
         int eleccion;
-        f1 = new File(path);
         raf = new RandomAccessFile(f1, "rw");
         System.out.print("Indica el ID del registro a modificar: ");
         puntero = lec.nextInt();
@@ -319,7 +317,7 @@ public class FicheroBinario{
      * @param path el path del fichero el cual queremos ver
      * @throws IOException
      */
-    public static void listarRegistros(String path)throws IOException, FileNotFoundException{
+    public static void listarRegistros(File f1)throws IOException, FileNotFoundException{
         int puntero;
         int iD;
         char[]nombres;
@@ -332,8 +330,7 @@ public class FicheroBinario{
         puntero = 0;
         nombres = new char[10];
         convocatoriaOr = new char[10];
-        convocatoriaEx = new char[10];
-        f1 = new File(path);
+        convocatoriaEx = new char[10];;
         raf = new RandomAccessFile(f1, "r"); 
         if(raf.length() == 0){
             System.out.println("El fichero esta vacio....");
@@ -366,6 +363,95 @@ public class FicheroBinario{
         }        
         raf.close();
     }
+
+    public static void eliminarRegistro(File f1)throws FileNotFoundException,IOException{
+        int idRegistro;
+        boolean seguir;
+        File fAux;
+        RandomAccessFile raf;
+        RandomAccessFile rafAux;
+        char []aux;
+        String stringAux;
+        int puntero;
+        int id;
+        aux = new char[10];
+        fAux = new File("./fAux.dat");
+        raf = new RandomAccessFile(f1, "rw");
+        seguir = true;
+        puntero = 0;
+        id = 1;
+        do{
+            System.out.print("Introduce la id de registro a borrar: ");
+            idRegistro = lec.nextInt();
+            lec.nextLine();
+            if((idRegistro - 1) * TAMAÑO_REGISTRO > raf.length()){
+                System.out.println("No existe el registro");
+            }
+            else{
+                rafAux = new RandomAccessFile(fAux, "rw");
+                seguir = false;
+                while(raf.length() != raf.getFilePointer()){
+                    raf.seek(puntero);
+                    if(raf.getFilePointer() != (idRegistro - 1) *TAMAÑO_REGISTRO){
+                        rafAux.writeInt(id);
+                        raf.readInt();
+                        rafAux.writeLong(raf.readLong());
+                        for(int i=0; i<aux.length; i++){
+                            aux[i] = raf.readChar();
+                        }
+                        stringAux = new String(aux);
+                        rafAux.writeChars(stringAux);
+                        for(int i=0; i<aux.length; i++){
+                            aux[i] = raf.readChar();
+                        }
+                        stringAux = new String(aux);
+                        rafAux.writeChars(stringAux);
+                        rafAux.writeDouble(raf.readDouble());
+                        for(int i=0; i<aux.length; i++){
+                            aux[i] = raf.readChar();
+                        }
+                        stringAux = new String(aux);
+                        rafAux.writeChars(stringAux);
+                        rafAux.writeDouble(raf.readDouble());
+                        puntero += TAMAÑO_REGISTRO;
+                        id++;
+                    }
+                    else
+                    puntero += TAMAÑO_REGISTRO;
+                }
+                copyFile(fAux , f1);
+                fAux.delete();
+                rafAux.close();
+            }
+        }while(seguir);
+        raf.close();
+        
+    }
+
+    public static boolean copyFile(File fromFile, File toFile) {
+        File origen = new File(fromFile.getAbsolutePath());
+        File destino = new File(toFile.getAbsolutePath());
+        if (origen.exists()) {
+            try {
+                InputStream in = new FileInputStream(origen);
+                OutputStream out = new FileOutputStream(destino);
+                // Usamos el buffer para la copia
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+                in.close();
+                out.close();
+                return true;
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
     /**
      * busca la posicion del ultimo registro
      * @return devuelve la posicion
@@ -377,7 +463,6 @@ public class FicheroBinario{
         int puntero = 0;
         RandomAccessFile raf;
         raf = new RandomAccessFile(f1, "r");
-        System.out.println(raf.length());
         while(raf.length() != raf.getFilePointer()){
             raf.seek(puntero);
             posicionUltimo++;

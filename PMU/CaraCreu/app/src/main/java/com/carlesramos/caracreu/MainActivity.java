@@ -2,19 +2,16 @@ package com.carlesramos.caracreu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.os.AsyncTask;
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import java.util.Random;
-
-import static android.view.View.VISIBLE;
+import static android.os.SystemClock.sleep;
 
 public class MainActivity extends AppCompatActivity {
     private Button btCara;
@@ -23,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvResultado;
     private Random rnd;
     private int numRandom;
-    private ProgressBar pbProgreso;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +30,13 @@ public class MainActivity extends AppCompatActivity {
         ivQuestion = findViewById(R.id.ivQuestion);
         tvResultado = findViewById(R.id.tvResultado);
         rnd = new Random();
+        rotarImagen(ivQuestion);
 
         btCara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                resetText();
                 numRandom = rnd.nextInt(2);
-                esperar();
                 switch (numRandom){
                     case 0:{
                         mostrarCara();
@@ -58,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
         btCruz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                resetText();
                 numRandom = rnd.nextInt(2);
-                esperar();
                 switch (numRandom){
                     case 0:{
                         mostrarCruz();
@@ -75,23 +72,45 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    public void esperar(){
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
     public void mostrarCara(){
-        ivQuestion.setImageResource(R.drawable.euro_cara);
+        ivQuestion.setVisibility(View.INVISIBLE);
+        ivQuestion.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ivQuestion.setImageResource(R.drawable.euro_cara);
+                ivQuestion.setVisibility(View.VISIBLE);
+            }
+        }, 3000);
     }
     public void mostrarCruz(){
-        ivQuestion.setImageResource(R.drawable.euro_cruz);
+        ivQuestion.setVisibility(View.INVISIBLE);
+        ivQuestion.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ivQuestion.setImageResource(R.drawable.euro_cruz);
+                ivQuestion.setVisibility(View.VISIBLE);
+            }
+        }, 3000);
     }
     public void mensajeVictoria(){
+        sleep(3000);
         tvResultado.setText(R.string.tvResultado);
     }
     public void mensajeDerrota(){
+        sleep(3000);
         tvResultado.setText(R.string.tvResultado1);
+    }
+    private void rotarImagen(View view){
+        RotateAnimation animation = new RotateAnimation(0, 360,
+                RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+
+        animation.setDuration(800);
+        animation.setRepeatCount(Animation.RELATIVE_TO_PARENT);
+        animation.setRepeatMode(Animation.INFINITE);
+        view.startAnimation(animation);
+    }
+    private void resetText(){
+        tvResultado.setText(R.string.tvResultado0);
     }
 }
