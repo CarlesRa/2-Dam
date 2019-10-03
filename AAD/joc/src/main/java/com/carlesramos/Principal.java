@@ -3,42 +3,67 @@ package com.carlesramos;
 import com.carlesramos.armas.Arma;
 import com.carlesramos.personajes.Personaje;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.io.*;
+import java.util.ArrayList;
 
 public class Principal {
+    static File fichero = fichero = new File("joc.dat");
+    static ArrayList<Personaje>personajes = new ArrayList<>();
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        File fichero;
-        FileOutputStream ficheroSalida;
+
+
+    }
+
+    public static void mostrarMenu(){
+        System.out.println("******MENU PRINCIPAL*******");
+        System.out.println("1-Crear personajes");
+        System.out.println("2-Ver ");
+        System.out.println("******MENU PRINCIPAL*******");
+    }
+
+    public static int cargarJuego(){
+        int contador = 0;
+        boolean hayMas;
         FileInputStream ficheroEntrada;
-        ObjectOutputStream escritor;
-        ObjectInputStream lectorObjetos;
-        boolean hayMas = true;
-        fichero = new File("joc.dat");
-        ficheroSalida = new FileOutputStream(fichero);
-        escritor = new ObjectOutputStream(ficheroSalida);
-        ficheroEntrada = new FileInputStream(fichero);
-        lectorObjetos = new ObjectInputStream(ficheroEntrada);
-        Personaje orc = new Personaje("Orc verd","Orc");
-        Personaje elf = new Personaje("Elf de la melena","Elf");
-        Personaje mag = new Personaje("Harry el mag","Mag");
-
-        /*System.out.println(orc.toString());
-        System.out.println(elf.toString());
-        System.out.println(mag.toString());*/
-
-        orc.setArmes(new Arma("Espasa a dos mans"));
-
-        escritor.writeObject(orc);
-        escritor.writeObject(elf);
-        escritor.writeObject(mag);
+        ObjectInputStream lectorObjetos = null;
+        hayMas = false;
+        try {
+            ficheroEntrada = new FileInputStream(fichero);
+            lectorObjetos = new ObjectInputStream(ficheroEntrada);
+        } catch (FileNotFoundException e) {
+            System.out.println("Fichero no encontrado....");
+        } catch (IOException ioe){
+            System.out.println("Error de entrada/salida...");
+        }
 
         while(hayMas){
             try {
-                System.out.println(lectorObjetos.readObject().toString());
-            }
-            catch (EOFException eofe){
-                hayMas = false;
+               personajes.add((Personaje) lectorObjetos.readObject());
+               contador++;
+            } catch (IOException e) {
+                System.out.println("Error de entada/salida");
+            } catch (ClassNotFoundException e) {
+                System.out.println("Fichero no encontrado");
             }
         }
+        return contador;
+    }
+
+    public void guardarJuego(){
+        FileOutputStream ficheroSalida;
+        ObjectOutputStream escritor;
+        try {
+            ficheroSalida = new FileOutputStream(fichero);
+            escritor = new ObjectOutputStream(ficheroSalida);
+            for (int i=0; i<personajes.size(); i++){
+                escritor.writeObject(personajes.get(i));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("No se encuentra el fichero...");
+        }catch (IOException ioe){
+            System.out.println("Error de entrada/salida");
+        }
+
     }
 }

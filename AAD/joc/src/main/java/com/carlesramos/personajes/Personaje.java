@@ -1,6 +1,7 @@
 package com.carlesramos.personajes;
 
 import com.carlesramos.armas.Arma;
+import com.carlesramos.items.Item;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,13 +14,15 @@ public class Personaje implements Serializable {
     private int forsa;
     private int vida;
     private ArrayList<Arma> armes;
+    private ArrayList<Item> motxila;
 
     public Personaje(String nom, String tipo) {
         this.nom = nom;
         this.tipo = tipo;
         this.forsa = calcularForsa(tipo);
         this.vida = VIDABASE;
-        this.armes = new ArrayList<Arma>();
+        this.armes = new ArrayList<>();
+        this.motxila = new ArrayList<>();
         setArmes(assignarArma(tipo));
     }
 
@@ -58,8 +61,16 @@ public class Personaje implements Serializable {
         this.vida = vida;
     }
 
-    public ArrayList<Arma> getArmes() {
-        return armes;
+    public Arma getArmes(int posicion) {
+        return armes.get(posicion);
+    }
+
+    public Item getItem(int posicion) {
+        return motxila.get(posicion);
+    }
+
+    public void addToMotxila(Item item) {
+        this.motxila.add(item);
     }
 
     public void setArmes(Arma arma) {
