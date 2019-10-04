@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Personaje implements Serializable {
+    private static int IDAUTO = 0;
+    private int id;
     private static final long serialVersionUID = 1L;
     private final int VIDABASE = 100;
     private String nom;
@@ -17,13 +19,14 @@ public class Personaje implements Serializable {
     private ArrayList<Item> motxila;
 
     public Personaje(String nom, String tipo) {
+        id = ++IDAUTO;
         this.nom = nom;
         this.tipo = tipo;
         this.forsa = calcularForsa(tipo);
         this.vida = VIDABASE;
         this.armes = new ArrayList<>();
         this.motxila = new ArrayList<>();
-        setArmes(assignarArma(tipo));
+        addArma(assignarArma(tipo));
     }
 
     public Personaje() {
@@ -43,6 +46,8 @@ public class Personaje implements Serializable {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+        calcularForsa(tipo);
+        assignarArma(tipo);
     }
 
     public int getForsa() {
@@ -61,20 +66,32 @@ public class Personaje implements Serializable {
         this.vida = vida;
     }
 
-    public Arma getArmes(int posicion) {
-        return armes.get(posicion);
+    public ArrayList<Arma> getArmes() {
+        return armes;
     }
 
-    public Item getItem(int posicion) {
-        return motxila.get(posicion);
+    public ArrayList<Item> getMotxila() {
+        return motxila;
+    }
+
+    public void addItem(Item item) {
+        motxila.add(item);
     }
 
     public void addToMotxila(Item item) {
         this.motxila.add(item);
     }
 
-    public void setArmes(Arma arma) {
+    public void addArma(Arma arma) {
         armes.add(arma);
+    }
+
+    public int getid() {
+        return id;
+    }
+
+    public static void setIDAUTO(int IDAUTO) {
+        Personaje.IDAUTO = IDAUTO;
     }
 
     private int calcularForsa(String tipo){
@@ -93,11 +110,11 @@ public class Personaje implements Serializable {
 
     private Arma assignarArma(String tipo){
         Arma arma;
-        if ("Orc".equals(tipo)) {
+        if ("Orc".equalsIgnoreCase(tipo)) {
             arma = new Arma("Hacha del leñador");
-        } else if ("Elf".equals(tipo)) {
+        } else if ("Elf".equalsIgnoreCase(tipo)) {
             arma = new Arma("Arc de fusta");
-        } else if ("Mag".equals(tipo)) {
+        } else if ("Mag".equalsIgnoreCase(tipo)) {
             arma = new Arma("Varita de pluma de fenix");
         } else {
             arma = new Arma("punys");
@@ -108,11 +125,14 @@ public class Personaje implements Serializable {
     @Override
     public String toString() {
         return "Personaje{" +
-                "nom='" + nom + '\'' +
+                "id=" + id +
+                ", VIDABASE=" + VIDABASE +
+                ", nom='" + nom + '\'' +
                 ", tipo='" + tipo + '\'' +
-                ", força=" + forsa +
+                ", forsa=" + forsa +
                 ", vida=" + vida +
                 ", armes=" + armes +
+                ", motxila=" + motxila +
                 '}';
     }
 }

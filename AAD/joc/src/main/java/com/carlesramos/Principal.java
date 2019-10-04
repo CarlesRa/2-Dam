@@ -1,69 +1,157 @@
 package com.carlesramos;
 
-import com.carlesramos.armas.Arma;
 import com.carlesramos.personajes.Personaje;
-
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Principal {
+
     static File fichero = fichero = new File("joc.dat");
     static ArrayList<Personaje>personajes = new ArrayList<>();
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    static Scanner lec = new Scanner(System.in);
 
-
-    }
-
-    public static void mostrarMenu(){
-        System.out.println("******MENU PRINCIPAL*******");
-        System.out.println("1-Crear personajes");
-        System.out.println("2-Ver ");
-        System.out.println("******MENU PRINCIPAL*******");
-    }
-
-    public static int cargarJuego(){
-        int contador = 0;
-        boolean hayMas;
-        FileInputStream ficheroEntrada;
-        ObjectInputStream lectorObjetos = null;
-        hayMas = false;
+    public static void main(String[] args)  {
+        int numPersonjes;
+        int eleccionMenu;
         try {
-            ficheroEntrada = new FileInputStream(fichero);
-            lectorObjetos = new ObjectInputStream(ficheroEntrada);
-        } catch (FileNotFoundException e) {
-            System.out.println("Fichero no encontrado....");
-        } catch (IOException ioe){
-            System.out.println("Error de entrada/salida...");
+            cargarJuego();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch(ClassNotFoundException cnfe){
+
+        }
+        if (personajes.size() == 0){
+            System.out.println("No hay personajes con los que jugar...");
+        }
+        else{
+            System.out.println("Hay un total de " + personajes.size() + " personajes\n");
+        }
+        do {
+            eleccionMenu = mostrarMenu();
+            switch (eleccionMenu){
+                case 1:{
+                    listarPersonajes();
+                    break;
+                }
+                case 2:{
+                    crearPersonaje();
+                    break;
+                }
+                case 3:{
+                    guardarJuego();
+                    break;
+                }
+
+                case 4:{
+                    borrarPersonaje();
+                    break;
+                }
+                default:
+                    System.out.println("Eleccion Incorrecta");
+                    break;
+            }
+        }while (eleccionMenu != 3);
+
+
+
+    }
+
+    public static int mostrarMenu(){
+        int eleccion = -1;
+        System.out.println("******MENU PRINCIPAL*******");
+        System.out.println("1-Listar personajes");
+        System.out.println("2-Crear personajes");
+        System.out.println("3-Guardar y salir");
+        System.out.println("4-Borrar personaje");
+        System.out.println("5-Modificar Jugador");
+        System.out.println("Selecciona una opción: ");
+        eleccion = lec.nextInt();
+        lec.nextLine();
+        return eleccion;
+    }
+
+    public static void cargarJuego() throws IOException,ClassNotFoundException{
+        boolean salir = false;
+        int id = Integer.MIN_VALUE;
+        int i = 0;
+        if (!fichero.exists()){
+            fichero.createNewFile();
+        }
+        try {
+            FileInputStream ficheroEntrada = new FileInputStream(fichero);
+            ObjectInputStream lectorObjetos = new ObjectInputStream(ficheroEntrada);
+            while (!salir) {
+                personajes.add((Personaje) lectorObjetos.readObject());
+                if (id < personajes.get(i).getid()){
+                    id = personajes.get(i).getid();
+                }
+                i++;
+
+            }
+            lectorObjetos.close();
+        }catch (EOFException eof){
+            Personaje.setIDAUTO(id);
         }
 
-        while(hayMas){
-            try {
-               personajes.add((Personaje) lectorObjetos.readObject());
-               contador++;
-            } catch (IOException e) {
-                System.out.println("Error de entada/salida");
-            } catch (ClassNotFoundException e) {
-                System.out.println("Fichero no encontrado");
+    }
+
+    public static void crearPersonaje(){
+        String nombre;
+        String tipo;
+        System.out.println("Nombre: ");
+        nombre = lec.nextLine();
+        System.out.println("Tipo: ");
+        tipo = lec.nextLine();
+        personajes.add(new Personaje(nombre,tipo));
+    }
+
+    public static void listarPersonajes(){
+        personajes.forEach(personaje -> System.out.println(personaje.toString()));
+    }
+
+    public static void borrarPersonaje(){
+        int id;
+        System.out.println("Introduce el ID: ");
+        id = lec.nextInt();
+        lec.nextLine();
+        for (int i=0; i<personajes.size(); i++){
+            if (personajes.get(i).getid() == id){
+                personajes.remove(i);
+                System.out.println("Personaje borrado con éxito");
+                return;
             }
         }
-        return contador;
+        System.out.println("No existe personaje con ese ID...");
     }
 
-    public void guardarJuego(){
-        FileOutputStream ficheroSalida;
-        ObjectOutputStream escritor;
+    public static void guardarJuego(){
         try {
+            FileOutputStream ficheroSalida;
+            ObjectOutputStream escritor;
             ficheroSalida = new FileOutputStream(fichero);
             escritor = new ObjectOutputStream(ficheroSalida);
-            for (int i=0; i<personajes.size(); i++){
-                escritor.writeObject(personajes.get(i));
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("No se encuentra el fichero...");
-        }catch (IOException ioe){
+            personajes.forEach(personaje -> {
+                try {
+                    escritor.writeObject(personaje);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (IOException ioe){
             System.out.println("Error de entrada/salida");
         }
-
+    }
+    public static void modificarJugador(){
+        int id;
+        System.out.println("Introduce el ID:");
+        id = lec.nextInt();
+        lec.nextLine();
+        for(int i=0; i<personajes.size(); i++){
+            if (personajes.get(i).getid() == id){
+                personajes.remove(i);
+            }
+        }
     }
 }
