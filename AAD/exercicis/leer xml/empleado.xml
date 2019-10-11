@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"
+        standalone="no"?>
+<Compañia>
+    <empleado id="1">
+        <nombre>Javier</nombre>
+        <apellidos>Gonzales</apellidos>
+    </empleado>
+    <empleado id="2">
+        <nombre>Maria</nombre>
+        <apellidos>Ortega</apellidos></empleado>
+    <empleado id="3">
+        <nombre>Juan</nombre>
+        <apellidos>Esperanto</apellidos>
+        </empleado>
+</Compañia>
