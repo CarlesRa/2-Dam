@@ -5,6 +5,7 @@ import com.carlesramos.items.Item;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Personaje implements Serializable {
     private static int IDAUTO = 0;
@@ -78,6 +79,10 @@ public class Personaje implements Serializable {
         motxila.add(item);
     }
 
+    public void listarItems(){
+        System.out.println(motxila);
+    }
+
     public void addToMotxila(Item item) {
         this.motxila.add(item);
     }
@@ -88,6 +93,13 @@ public class Personaje implements Serializable {
 
     public int getid() {
         return id;
+    }
+
+    public int atacar(){
+        int damage;
+        Random random = new Random();
+        damage = random.nextInt(21);
+        return damage;
     }
 
     public static void setIDAUTO(int IDAUTO) {
