@@ -1,3 +1,4 @@
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
@@ -5,12 +6,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -22,11 +21,15 @@ import java.util.Random;
 
 public class LectorXmlSax {
     public static void main(String[] args) {
+        File fich = new File("carrito.xml");
+        if (!fich.exists()){
+            crearDocumento();
+        }
         try {
              XMLReader procesador = XMLReaderFactory.createXMLReader();
              LectorXML lector = new LectorXML();
              procesador.setContentHandler(lector);
-             InputSource fichero = new InputSource("empleados.xml");
+             InputSource fichero = new InputSource("carrito.xml");
              procesador.parse(fichero);
 
         } catch (SAXException e) {
@@ -36,9 +39,10 @@ public class LectorXmlSax {
         }
     }
 
-    public void crearDocumento(){
-        String[] tipos = {"orc","elf","mag"};
-        String []noms = {"Manolo","Juana","Mariflor","Esperanto","Martinez","El facha","Carmena","Juanita","Menganita"};
+    public static void crearDocumento(){
+        Double[] preus = {12.0,2.50,6.25};
+        String []nombres = {"Manzana","Pera","Pollo","Calabaza","Salsa","Leche"};
+        int []cantidades = {2,4,3,8};
         Random rnd = new Random();
 
         try {
@@ -49,32 +53,35 @@ public class LectorXmlSax {
             Document doc = docBuilder.newDocument();
             Element rootElement = doc.createElement("carrito");
             doc.appendChild(rootElement);
-            for (int i=0; i<noms.length; i++) {
+            for (int i=0; i<nombres.length; i++) {
                 //primer elemento
-                Element personaje = doc.createElement("producto");
-                rootElement.appendChild(personaje);
+                Element producto = doc.createElement("producto");
+                Attr atributo = doc.createAttribute("id");
+                atributo.setValue(String.valueOf(i+1));
+                rootElement.appendChild(producto);
+                producto.setAttributeNode(atributo);
 
                 //Agregamos los atributos
                 Element nombre = doc.createElement("nombre");
-                personaje.appendChild(nombre);
-                Text valorNombre = doc.createTextNode(noms[i]);
+                producto.appendChild(nombre);
+                Text valorNombre = doc.createTextNode(nombres[i]);
                 nombre.appendChild(valorNombre);
 
-                Element tipo = doc.createElement("precio");
-                personaje.appendChild(tipo);
-                Text valorTipo = doc.createTextNode(tipos[rnd.nextInt(3)]);
-                tipo.appendChild(valorTipo);
+                Element precio = doc.createElement("precio");
+                producto.appendChild(precio);
+                Text valorPrecio = doc.createTextNode(String.valueOf(preus[rnd.nextInt(3)]));
+                precio.appendChild(valorPrecio);
 
-                Element tipo = doc.createElement("precio");
-                personaje.appendChild(tipo);
-                Text valorTipo = doc.createTextNode(tipos[rnd.nextInt(3)]);
-                tipo.appendChild(valorTipo);
+                Element cantidad = doc.createElement("cantidad");
+                producto.appendChild(cantidad);
+                Text valorCantidad = doc.createTextNode(String.valueOf(cantidades[rnd.nextInt(3)]));
+                precio.appendChild(valorCantidad);
 
                 //Se escribe el contenido del xml a un arxivo
                 TransformerFactory transformerFactory = TransformerFactory.newInstance();
                 Transformer transformer = transformerFactory.newTransformer();
                 DOMSource source = new DOMSource(doc);
-                StreamResult result = new StreamResult(new File("./Personajes.xml"));
+                StreamResult result = new StreamResult(new File("./carrito.xml"));
                 transformer.transform(source, result);
             }
 

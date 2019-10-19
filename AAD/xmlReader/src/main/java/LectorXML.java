@@ -21,7 +21,13 @@ public class LectorXML extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        System.out.println("<" + localName + ">");
+        if (attributes.getLength() > 0){
+            System.out.println("<" + localName + " id=" + attributes.getValue("id") + ">");
+        }
+        else{
+            System.out.println("<" + localName + ">");
+        }
+
     }
 
     @Override

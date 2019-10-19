@@ -1,10 +1,11 @@
-import com.thoughtworks.xstream.XStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import com.thoughtworks.xstream.XStream;
+
 public class MainLeer {
-    public static void main(String[] args) {
+	public static void main(String[] args) {
         XStream xs = new XStream();
         xs.processAnnotations(Alumne.class);
         try {
