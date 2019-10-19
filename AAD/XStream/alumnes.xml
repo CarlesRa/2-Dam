@@ -1,0 +1,14 @@
+<list>
+  <Alumne>
+    <Nombre>Paco</Nombre>
+    <Apellido>Vives</Apellido>
+    <Edad>25</Edad>
+    <Nota>3.65</Nota>
+  </Alumne>
+  <Alumne>
+    <Nombre>Soralla</Nombre>
+    <Apellido>Vives</Apellido>
+    <Edad>32</Edad>
+    <Nota>7.5</Nota>
+  </Alumne>
+</list>
