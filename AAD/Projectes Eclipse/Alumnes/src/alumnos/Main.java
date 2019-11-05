@@ -35,7 +35,7 @@ public class Main {
 				e.printStackTrace();
 			}
 		}
-		objectIn.close();
+		
 	}
 
 }
